@@ -1,1 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Fracción a Decimal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
+        .app {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.15);
+            text-align: center;
+            width: 320px;
+        }
+
+        input {
+            padding: 8px;
+            width: 100%;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .resultado {
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        .puntaje {
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <h2>Fracción a decimal</h2>
+
+    <div class="puntaje">
+        Puntaje: <span id="puntaje">0</span>
+    </div>
+
+    <p id="fraccion"></p>
+
+    <input type="number" step="any" id="respuesta" placeholder="Decimal">
+
+    <button onclick="verificar()">Verificar</button>
+
+    <p class="resultado" id="resultado"></p>
+</div>
+
+<script>
+    let numerador, denominador, decimalCorrecto;
+    let puntaje = 0;
+
+    function nuevaFraccion() {
+        numerador = Math.floor(Math.random() * 9) + 1;
+        denominador = Math.floor(Math.random() * 9) + 2;
+        decimalCorrecto = numerador / denominador;
+
+        document.getElementById("fraccion").textContent =
+            `¿Cuánto es ${numerador} / ${denominador}?`;
+
+        document.getElementById("respuesta").value = "";
+        document.getElementById("resultado").textContent = "";
+    }
+
+    function verificar() {
+        const respuestaUsuario = parseFloat(
+            document.getElementById("respuesta").value
+        );
+
+        if (isNaN(respuestaUsuario)) {
+            document.getElementById("resultado").textContent =
+                "⚠️ Ingresa un número";
+            return;
+        }
+
+        if (Math.abs(respuestaUsuario - decimalCorrecto) < 0.01) {
+            puntaje += 10;
+            document.getElementById("resultado").textContent = "✅ Correcto (+10)";
+        } else {
+            puntaje -= 2;
+            document.getElementById("resultado").textContent =
+                `❌ Incorrecto. Era ${decimalCorrecto.toFixed(2)} (-2)`;
+        }
+
+        document.getElementById("puntaje").textContent = puntaje;
+
+        setTimeout(nuevaFraccion, 2000);
+    }
+
+    nuevaFraccion();
+</script>
+
+</body>
+</html>
